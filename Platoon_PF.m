@@ -7,7 +7,7 @@
 
 %% DMPC for platoons with PF topology
 clc;clear;close all;
-load PlatoonParameter.mat  % This set of parameters were used in the paper
+load PlatoonParameter.mat  % This set of parameters was used in the paper
 
 %% Initial Virables 
 Postion  = zeros(Num_step,Num_veh);     % postion of each vehicle;
@@ -34,9 +34,9 @@ end
  
 % Zero initial error for the followers
 for i = 1:Num_veh
-    Postion(1,i) = x0(1)-i*d;
+    Postion(1,i)  = x0(1)-i*d;
     Velocity(1,i) = 20;             
-    Torque(1,i) = (Mass(i)*g*f + Ca(i)*Velocity(1,i)^2)*R(i)/Eta;
+    Torque(1,i)   = (Mass(i)*g*f + Ca(i)*Velocity(1,i)^2)*R(i)/Eta;
 end
 
 
@@ -91,12 +91,12 @@ for i = 2:Num_step - Np
     % Solve optimization problem
     tic
     %% Vehicle one
-    Vehicle_Type = [Mass(1),R(1),g,f,Eta,Ca(1),Tao(1)];             % the vehicle parameters £º Mass,R,g,f,Eta,Ca(i),Tao, 
-    X0 = [Postion(i-1,1),Velocity(i-1,1),Torque(i-1,1)];            % the vehicle variable in the last time
-    Pd = x0(i-1:i+Np-1) - d;  Vd = v0(i-1:i+Np-1);                  % Np+1 points in total: i-1 last state£¬ i to be optimized
+    Vehicle_Type = [Mass(1),R(1),g,f,Eta,Ca(1),Tao(1)];             % the vehicle parameters ï¼š Mass,R,g,f,Eta,Ca(i),Tao, 
+    X0 = [Postion(i-1,1),Velocity(i-1,1),Torque(i-1,1)];            % the vehicle variable in the last time step
+    Pd = x0(i-1:i+Np-1) - d;  Vd = v0(i-1:i+Np-1);                  % Np+1 points in total: i-1 last stateï¼Œ i to be optimized
     Xdes = [Pd,Vd];                                                 % Desired state of the first vehicle
     Xa = [Pa(:,1),Va(:,1)];                                         % Assumed state, which is passed to the next vehicle
-    Xnba = zeros(Np+1,2);                                           % 1£ºlast state
+    Xnba = zeros(Np+1,2);                                           % 1ï¼šlast state
    
     u0 = ua(:,1);                                                            % initial searching point    
     A = [];b = []; Aeq = []; beq = [];                                       % no linear constraints
@@ -127,7 +127,7 @@ for i = 2:Num_step - Np
     
     %% Vehicle two
     tic
-    Vehicle_Type = [Mass(2),R(2),g,f,Eta,Ca(2),Tao(2)];                 % the vehicle parameters £º Mass,R,g,f,Eta,Ca(i),Tao, 
+    Vehicle_Type = [Mass(2),R(2),g,f,Eta,Ca(2),Tao(2)];                 % the vehicle parameters ï¼š Mass,R,g,f,Eta,Ca(i),Tao, 
     X0 = [Postion(i-1,2),Velocity(i-1,2),Torque(i-1,2)];                % the vehicle variable in the last time
     Pd = zeros(Np+1,1);  Vd = zeros(Np+1,1);                      
     Xdes = [Pd,Vd];  
@@ -165,7 +165,7 @@ for i = 2:Num_step - Np
     
     %% vehicle three
     tic
-    Vehicle_Type = [Mass(3),R(3),g,f,Eta,Ca(3),Tao(3)];                 % the vehicle parameters £º Mass,R,g,f,Eta,Ca(i),Tao, 
+    Vehicle_Type = [Mass(3),R(3),g,f,Eta,Ca(3),Tao(3)];                 % the vehicle parameters ï¼š Mass,R,g,f,Eta,Ca(i),Tao, 
     X0 = [Postion(i-1,3),Velocity(i-1,3),Torque(i-1,3)];                % the vehicle variable in the last time
     Pd = zeros(Np+1,1);  Vd = zeros(Np+1,1);                     
     Xdes = [Pd,Vd]; 
@@ -203,7 +203,7 @@ for i = 2:Num_step - Np
     
     %% vehicle four
     tic
-    Vehicle_Type = [Mass(4),R(4),g,f,Eta,Ca(4),Tao(4)];                 % the vehicle parameters £º Mass,R,g,f,Eta,Ca(i),Tao, 
+    Vehicle_Type = [Mass(4),R(4),g,f,Eta,Ca(4),Tao(4)];                 % the vehicle parameters ï¼š Mass,R,g,f,Eta,Ca(i),Tao, 
     X0 = [Postion(i-1,4),Velocity(i-1,4),Torque(i-1,4)];                
     Pd = zeros(Np+1,1);  Vd = zeros(Np+1,1);                   
     Xdes = [Pd,Vd];                                
@@ -278,7 +278,7 @@ for i = 2:Num_step - Np
     
     %% vehicle six
     tic
-    Vehicle_Type = [Mass(6),R(6),g,f,Eta,Ca(6),Tao(6)];                 % the vehicle parameters £º Mass,R,g,f,Eta,Ca(i),Tao, 
+    Vehicle_Type = [Mass(6),R(6),g,f,Eta,Ca(6),Tao(6)];                 % the vehicle parameters ï¼š Mass,R,g,f,Eta,Ca(i),Tao, 
     X0 = [Postion(i-1,6),Velocity(i-1,6),Torque(i-1,6)];                % the vehicle variable in the last time
     Pd = zeros(Np+1,1);  Vd = zeros(Np+1,1);                      
     Xdes = [Pd,Vd];                            
@@ -290,7 +290,7 @@ for i = 2:Num_step - Np
     lb = Torquebound(6,1)*ones(Np,1); ub = Torquebound(6,2)*ones(Np,1);           
     Pnp = Xnfa(end,1); Vnp = Xnfa(end,2); 
     Xend(i,6) = Pnp; Vend(i,6) = Vnp; Tnp = (Ca(6)*Vnp.^2 + Mass(6)*g*f)/Eta*R(6);
-    % MPC ÓÅ»¯Çó½â
+    % MPC ä¼˜åŒ–æ±‚è§£
     [u, Cost(i,6), Exitflg(i,6), output] = fmincon(@(u) Costfunction2( Np, Tim_step, X0 ,u, Vehicle_Type,Q3,Xdes,R3,F3,Xa,G3,Xnfa), ...
         u0, A, b, Aeq, beq, lb, ub, @(u) Nonlinearconstraints(Np, Tim_step, X0, u, Vehicle_Type,Pnp,Vnp,Tnp),options); 
     
@@ -315,7 +315,7 @@ for i = 2:Num_step - Np
     
     %% vehicle seven
     tic
-    Vehicle_Type = [Mass(7),R(7),g,f,Eta,Ca(7),Tao(7)];                 % the vehicle parameters £º Mass,R,g,f,Eta,Ca(i),Tao, 
+    Vehicle_Type = [Mass(7),R(7),g,f,Eta,Ca(7),Tao(7)];                 % the vehicle parameters ï¼š Mass,R,g,f,Eta,Ca(i),Tao, 
     X0 = [Postion(i-1,7),Velocity(i-1,7),Torque(i-1,7)];                % the vehicle variable in the last time
     Pd = zeros(Np+1,1);  Vd = zeros(Np+1,1);                    
     Xdes = [Pd,Vd];  % Udes = Td;                                     
